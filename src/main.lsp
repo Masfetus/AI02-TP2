@@ -1,8 +1,13 @@
-﻿(setq relations '((I E) (S N) (F T) (J P))) ; Conserver l'ordre des éléments dans les listes (premier élément = réponse positive)
+﻿; Pour exécuter le test :
+;   - Lancer AI02-TP2.lpr avec Allegro Common Lisp
+;   - Accéder à la console de débogage
+;   - Entrer (askQuestions) dans la console
+
+
+(setq relations '((I E) (S N) (F T) (J P))) ; Conserver l'ordre des éléments dans les listes (premier élément = réponse positive)
 (defun askQuestions() ; Procédure principale à appeler pour démarrer le test
     (let ((currentQuestion nil) ; Question posée : (F T "Il est important de faire plaisir aux autres")
           (questions (initListFromFile "../data/questions.dat")) ; Récupération de la liste construite à partir du fichier
-          (answer nil)
           (currentProfile nil)
           (resultat '( (I . 0) (E . 0) (S . 0) (N . 0) (F . 0) (T . 0) (J . 0) (P . 0)))
           (rates (initListFromFile "../data/rates.dat"))) ; T si l'utilisateur a répondu OUI/VRAI, NIL sinon
@@ -57,8 +62,7 @@
 (defun determineProfil(resultats typesRegle)
     (let ((result '()))
         (dolist (typeRelation typesRegle) ; On va se baser sur les types contradictoires (qui ne peuvent pas être tous deux présents : I et E)
-            (let ((typePresent nil)
-                  (typeA (car typeRelation)) ; Premier type
+            (let ((typeA (car typeRelation)) ; Premier type
                   (typeB (cadr typeRelation))) ; Deuxième type
                 (if (>= (cdr (assoc typeA resultats)) (cdr (assoc typeB resultats))) ; On ajoute ici le type ayant obtenu le score maximal
                     (push typeA result)
